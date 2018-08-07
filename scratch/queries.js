@@ -3,33 +3,37 @@
 const knex = require('../knex');
 
 let searchTerm = 'Steve Jobs';
-knex
-  .select('notes.id', 'title', 'content')
-  .from('notes')
-  .modify(queryBuilder => {
-    if (searchTerm) {
-      queryBuilder.where('title', 'like', `%${searchTerm}%`);
-    }
-  })
-  .orderBy('notes.id')
-  .then(results => {
-    console.log(JSON.stringify(results, null, 2));
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// knex
+//   .select('notes.id', 'title', 'content')
+//   .from('notes')
+//   .modify(queryBuilder => {
+//     if (searchTerm) {
+//       queryBuilder.where('title', 'like', `%${searchTerm}%`);
+//     }
+//   })
+//   .orderBy('notes.id')
+//   .then(results => {
+//     console.log(JSON.stringify(results, null, 2));
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
 let searchId = 1;
 
 // knex
 //   .first('notes.id', 'title', 'content')
 //   .from('notes')
-//   .where('id', searchId)
+//   .modify(queryBuilder => {
+//     if (searchId) {
+//       queryBuilder.where('id', `${searchId}`);
+//     }
+//   })
 //   .then((results) => {
-//     console.log(JSON.stringify(results));
+//     res.json(results);
 //   })
 //   .catch(err => {
-//     console.log(err);
+//     next(err);
 //   });
 
 // knex('notes')
