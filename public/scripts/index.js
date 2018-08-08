@@ -23,6 +23,5 @@ $(document).ready(function () {
   //     store.tags = response;
   //     noteful.render();
   //   });
-
 });
 
