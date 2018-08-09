@@ -66,43 +66,46 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
-// Put update an item
+/*=========== PUT/UPDATE A SINGLE ITEM ===========*/
+// localhost:8080/api/notes/1003
+// BODY => { title: "new title"}
 router.put('/:id', (req, res, next) => {
-  const id = req.params.id;
-  const {title, content, folderId } = req.body;
-  /***** Never trust users - validate input *****/
-  const newItem = { title, content, folder_id: folderId };
-  const updateObj = {};
-  
-  const updateableFields = ['title', 'content', 'folder_id'];
+  const noteId = req.params.id;
+  const { title, content, folderId } = req.body;
 
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      updateObj[field] = req.body[field];
-    }
-  });
-  console.log('LOOOKKK AT MEEE', updateObj);
   /***** Never trust users - validate input *****/
-  if (!updateObj.title) {
-    const err = new Error('Missing `title` in request body');
+  if (!title) {
+    const err = new Error('Mising `title` in request body');
     err.status = 400;
     return next(err);
   }
+
+  const updateItem = {
+    title: title,
+    content: content,
+    folder_id: (folderId) ? folderId : null
+  };
   knex('notes')
-    .where('id', `${id}`)
-    .update({title: `${updateObj.title}`, content: `${updateObj.content}`})
+    .update(updateItem)
+    .where('id', noteId)
     .returning(['id'])
-    .then((id) => {
-      console.log('looooookkkkk attt meeee', id);
+    .then(() => {
+      // Using the noteId, select the note and the folder info
       return knex.select('notes.id', 'title', 'content', 'folder_id as folderId', 'folders.name as folderName')
         .from('notes')
         .leftJoin('folders', 'notes.folder_id', 'folders.id')
-        .where('notes.id', id[0].id);
+        .where('notes.id', noteId);
     })
     .then(([result]) => {
-      res.json(result);
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
     })
-    .catch(err => next(err));
+    .catch(err => {
+      next(err);
+    });
 });
 
 // Post (insert) an item
