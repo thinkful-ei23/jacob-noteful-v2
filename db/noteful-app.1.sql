@@ -10,7 +10,7 @@ CREATE TABLE folders (
     name text NOT NULL
 );
 
-ALTER SEQUENCE folders_id_seq RESTART WITH 1000;
+ALTER SEQUENCE folders_id_seq RESTART WITH 100;
 
 CREATE TABLE notes (
   id serial PRIMARY KEY,
@@ -33,7 +33,7 @@ CREATE TABLE notes_tags (
 
 INSERT INTO notes
   (title, content) VALUES
-    ('How to Win Friends and Influence People', 'Very interesting book'), ('Complete Software Developers Career Guide', 'John Sonmez'), ('The Pragmatic Programmer', 'Andrew Hunt'), ('Steve Jobs', 'Walter Isaacson'),('Silicon Valley', 'Lorem ipsum dolor sit amet'), ('Halt and Catch Fire', 'it is the early 1980s, and the spirit of innovation in personal computing is about to catch fire. Hot on the trail is a renegade trio a visionary, an engineer and a prodigy who risk everything to realize their vision of building a computer that can change the future.')
+    ('How to Win Friends and Influence People', 'Very interesting book');
 
 INSERT INTO folders (name) VALUES
   ('Archive'),
@@ -44,8 +44,32 @@ INSERT INTO folders (name) VALUES
 INSERT INTO notes (title, content, folder_id) VALUES
   (
     '5 life lessons learned from cats',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
-    1000
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...', 100
+  ), 
+  (
+    'Complete Software Developers Career Guide', 
+    'John Sonmez', 
+    100
+  ), 
+  (
+    'The Pragmatic Programmer', 
+    'Andrew Hunt', 
+    102
+  ), 
+  (
+    'Steve Jobs', 
+    'Walter Isaacson', 
+    102
+  ), 
+  (
+    'Silicon Valley',
+    'Lorem ipsum dolor sit amet', 
+    103
+  ), 
+  (
+    'Halt and Catch Fire', 
+    'it is the early 1980s, and the spirit of innovation in personal computing is about to catch fire. Hot on the trail is a renegade trio a visionary, an engineer and a prodigy who risk everything to realize their vision of building a computer that can change the future.', 
+    100
   );
 
 INSERT INTO tags (name) VALUES
@@ -55,11 +79,8 @@ INSERT INTO tags (name) VALUES
 
 INSERT INTO notes_tags 
   (note_id, tag_id) VALUES
-  (1, 1),
+  (1, 1), (1, 3),
   (2, 1),
-  (3, 1),
-  (4, 1),
-  (5, 3);
-
-SELECT * FROM tags;
+  (3, 1), (3, 2), (3, 3),
+  (4, 1);
   
